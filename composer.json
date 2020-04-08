@@ -1,5 +1,5 @@
 {
-    "name": "patronbase/omnipay-bpoint",
+    "name": "pingers/omnipay-bpoint",
     "type": "library",
     "description": "BPOINT driver for the Omnipay payment processing library",
     "keywords": [
