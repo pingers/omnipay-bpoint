@@ -13,6 +13,9 @@ class PurchaseRequest extends AbstractRequest
     protected $endpoint = 'https://www.bpoint.com.au/webapi/v3/txns/';
 
     /** @var string */
+    protected $uatEndpoint = 'https://bpoint-uat.premier.com.au/webapi/v3/txns/';
+
+    /** @var string */
     protected $action = 'processtxnauthkey';
 
     public function getUsername()
@@ -207,19 +210,19 @@ class PurchaseRequest extends AbstractRequest
 
     public function sendData($data)
     {
-        // submit data as request to Authkey endpoint
-        $httpRequest = $this->httpClient->createRequest('POST', $this->getEndpoint(), null);
-        $httpRequest->setBody(json_encode($data), 'application/json');
-        $httpResponse = $httpRequest->setHeader('Authorization', $this->getAuthHeader())->send();
-        // get response data
-        $responseData = $httpResponse->json();
+        $headers = [
+          'Authorization' => $this->getAuthHeader(),
+          'Content-Type' => 'application/json; charset=utf-8',
+        ];
+        $httpResponse = $this->httpClient->request('POST', $this->getEndpoint(), $headers, json_encode($data));
+        $responseData = json_decode((string) $httpResponse->getBody());
 
         return $this->response = new PurchaseResponse($this, $responseData);
     }
 
     public function getEndpoint()
     {
-        return $this->endpoint.$this->action;
+        return $this->getTestMode() ? $this->uatEndpoint.$this->action : $this->endpoint.$this->action;
     }
 
     public function getAuthHeader()
