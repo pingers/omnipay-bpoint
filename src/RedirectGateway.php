@@ -26,6 +26,7 @@ class RedirectGateway extends AbstractGateway
             'merchantNumber' => '',
             'merchantShortName' => '',
             'testMode' => false,
+            'uatMode' => false,
         );
     }
 
@@ -67,6 +68,16 @@ class RedirectGateway extends AbstractGateway
     public function setMerchantShortName($value)
     {
         return $this->setParameter('merchantShortName', $value);
+    }
+
+    public function getUatMode()
+    {
+      return $this->getParameter('uatMode');
+    }
+
+    public function setUatMode($value)
+    {
+      return $this->setParameter('uatMode', $value);
     }
 
     public function purchase(array $parameters = array())

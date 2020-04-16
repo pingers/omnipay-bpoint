@@ -2,6 +2,7 @@
 
 namespace Omnipay\BPOINT\Message;
 
+use Omnipay\BPOINT\BPoint;
 use Omnipay\Common\Message\AbstractResponse;
 
 /**
@@ -21,7 +22,8 @@ class PurchaseResponse extends AbstractResponse
 
     public function getRedirectUrl()
     {
-        return 'https://www.bpoint.com.au/pay/'.$this->getRequest()->getMerchantShortName();
+      $request = $this->getRequest();
+      return BPoint::getBaseUrl($this->getRequest()->getUatMode()) . 'pay/' . $this->getRequest()->getMerchantShortName();
     }
 
     public function getRedirectMethod()

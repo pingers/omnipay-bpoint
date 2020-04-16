@@ -3,6 +3,7 @@
 namespace Omnipay\BPOINT\Message;
 
 use Omnipay\Common\Message\AbstractRequest;
+use Omnipay\BPOINT\BPoint;
 
 /**
  * BPOINT Purchase Request
@@ -10,10 +11,7 @@ use Omnipay\Common\Message\AbstractRequest;
 class PurchaseRequest extends AbstractRequest
 {
     /** @var string */
-    protected $endpoint = 'https://www.bpoint.com.au/webapi/v3/txns/';
-
-    /** @var string */
-    protected $uatEndpoint = 'https://bpoint-uat.premier.com.au/webapi/v3/txns/';
+    protected $endpoint = 'webapi/v3/txns/';
 
     /** @var string */
     protected $action = 'processtxnauthkey';
@@ -133,6 +131,21 @@ class PurchaseRequest extends AbstractRequest
         return $this->setParameter('customerNumber', $value);
     }
 
+  public function getUatMode()
+  {
+    return $this->getParameter('uatMode');
+  }
+
+  /**
+   * Set UAT mode.
+   *
+   * @param bool $value
+   */
+  public function setUatMode($value)
+  {
+    return $this->setParameter('uatMode', $value);
+  }
+
     public function getData()
     {
         $this->validate('username', 'password', 'merchantNumber', 'merchantShortName', 'amount', 'currency');
@@ -222,7 +235,7 @@ class PurchaseRequest extends AbstractRequest
 
     public function getEndpoint()
     {
-        return $this->getTestMode() ? $this->uatEndpoint.$this->action : $this->endpoint.$this->action;
+        return BPoint::getBaseUrl($this->getUatMode()) . $this->endpoint.$this->action;
     }
 
     public function getAuthHeader()
