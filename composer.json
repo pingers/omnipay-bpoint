@@ -1,5 +1,5 @@
 {
-    "name": "pingers/omnipay-bpoint",
+    "name": "universityofadelaide/omnipay-bpoint",
     "type": "library",
     "description": "BPOINT driver for the Omnipay payment processing library",
     "keywords": [
